@@ -1,2 +1,2 @@
-# sisAgencia
-Sistema de gestión de agencias de viaje
+# Sistema de Prestamos
+Sistema para gestionar prestamos
