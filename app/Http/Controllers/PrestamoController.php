@@ -15,24 +15,33 @@ class PrestamoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        // $prestamos = \DB::table('prestamo as p')
-        // ->join('Cliente as c','p.Cliente','=','c.IDCliente')
-        // ->join('cronograma','p.IDPrestamo','=','cronograma.IDPrestamo')
-        // ->join('esadogeneral','p.Estado','=','esadogeneral.IDEstado')
-        // ->select("p.IDPrestamo as ID","c.DNI as DNI","p.ValorPrestamo")
-        // ->where('cronograma.Estado',1)
-        // ->groupBy('p.IDPrestamo','c.DNI')
-        // ->get();
-        $prestamos = \DB::select("SELECT p.IDPrestamo as ID,c.DNI as DNI,concat_ws(' ',c.Nombre,c.Apellidos) as nombres,
-        DATE_FORMAT(date(p.Fecha), '%d-%m-%Y') as fecha,p.ValorPrestamo as prestamo, p.Interes as interes,
-        COUNT(cr.Estado) as cuotas, cr.Monto as valorcuota,e.Descripcion as estado FROM prestamo p 
-        JOIN Cliente c ON p.Cliente = c.IDCliente 
-        JOIN cronograma cr on p. IDPrestamo = cr.IDPrestamo 
-        JOIN esadogeneral e ON p.Estado = e.IDEstado
-        WHERE cr.Estado = 1");
+        if($id == 1)
+        {
+            $prestamos = \DB::select("SELECT p.IDPrestamo as ID,c.DNI as DNI,concat_ws(' ',c.Nombre,c.Apellidos) as nombres,
+            DATE_FORMAT(date(p.Fecha), '%d-%m-%Y') as fecha,p.ValorPrestamo as prestamo, p.Interes as interes,
+            COUNT(cr.Estado) as cuotas, cr.Monto as valorcuota,e.Descripcion as estado FROM prestamo p 
+            JOIN Cliente c ON p.Cliente = c.IDCliente 
+            JOIN cronograma cr on p. IDPrestamo = cr.IDPrestamo 
+            JOIN esadogeneral e ON p.Estado = e.IDEstado
+            WHERE cr.Estado = 1 GROUP by p.IDPrestamo");
+        }
+        else
+        {
+            $prestamos = \DB::select("SELECT p.IDPrestamo as ID,c.DNI as DNI,concat_ws(' ',c.Nombre,c.Apellidos) as nombres, 
+            DATE_FORMAT(date(cr.Fecha), '%d-%m-%Y') as fecha,
+            p.ValorPrestamo as prestamo, c.Direccion as direccion, 
+            c.Celular as celular, p.Interes as interes, cr.Monto as valorcuota,
+            e.Descripcion as estado 
+            FROM prestamo p 
+            JOIN cliente c ON p.Cliente = c.IDCliente 
+            JOIN cronograma cr on p. IDPrestamo = cr.IDPrestamo 
+            JOIN esadogeneral e ON p.Estado = e.IDEstado 
+            WHERE cr.Estado = 1 AND cr.Fecha <= curdate()");
+        }
         return compact('prestamos');
+        
     }
 
     /**
@@ -146,5 +155,21 @@ class PrestamoController extends Controller
     public function destroy(prestamo $prestamo)
     {
         //
+    }
+
+    public function datos()
+    {
+        $solicitudes = \DB::select("SELECT IFNULL(COUNT(s.IDSolicitud),0) as solicitudes 
+        FROM solicitud s WHERE date(s.created_at) = curdate()");
+        foreach ($solicitudes as $key) {
+            $s = $key->solicitudes;
+        }
+        $clientes   = \DB::select("SELECT IFNULL(COUNT(c.IDCliente),0) as clientes from cliente c");
+        foreach ($clientes as $key) {
+            $c = $key->clientes;
+        }
+
+
+        return compact('s','c');
     }
 }

@@ -4,23 +4,29 @@
 	    	<div class="row">
 			 <div class="col-md-12">
 	            <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <button  class="btn btn-primary" @click="ocultar('1')">
+                            <button  class="btn btn-outline-primary" @click="ocultar('1')">
                             Prestamos <i class="fa fa-plus"></i>
                             </button>
-                            <button  class="btn btn-primary" @click="ocultar('2')">
+                            <button  class="btn btn-outline-primary" @click="ocultar('2')">
                                 <i class="fa fa-minus"></i>
+                            </button>
+							<button  class="btn btn-outline-success" @click="getDatos('1')">
+                            General    <i class="fa fa-list"></i>
+                            </button>
+							<button  class="btn btn-outline-success" @click="getDatos('2')">
+                            Al día    <i class="fa fa-calendar"></i>
                             </button>
                         </div>
                     </div>
                 </div>
-	            <div class="card card-default">
-	                <div class="card-header text-center">
+	            <div class="card card-default" id="cliente">
+	                <div class="card-header text-center" style="background-color: #7DCAE7;color: white">
 	                    <h4 class="title">Prestamos</h4>  
 	                </div>
-	                <div class="card-body" id="cliente">
-	                    <form @submit.prevent="registrar" method="POST">
+	                <div class="card-body">
+	                    <!-- <form @submit.prevent="registrar" method="POST"> -->
 	                        <div class="row">
 								<div class="col-md-3">
 	                                <div class="form-group">
@@ -101,32 +107,18 @@
 	                            </div>
 							</div>	
 							<div class="row text-left">
-                                <div class="col-md-2">
-									<input type="submit" value="Prestar" class="btn btn-success">
+                                <div class="col-md-2 mt-2">
+									<button @click="registrar()" class="btn btn-outline-success">Prestar <i class="fa fa-dollar"></i></button>
+								</div>
+								<div class="col-md-2">
+									<router-link :to=" '/cronograma/' + this.prestamo.valor + '/' +this.prestamo.interes + '/' + this.prestamo.periodicidad + '/' + this.prestamo.periodo" 
+									class="nav-link" target="_blank">
+									<button  class="btn btn-outline-primary">
+										Generar Cronograma <i class="fa fa-align-justify"></i>
+									</button>
+									</router-link>
 								</div>
 							</div>
-							<div class="clearfix"></div>
-	                    </form>
-                        <br>
-                        <div class="row">
-							
-                            <!-- <div class="col-md-1">
-                                <button  class="btn btn-primary" click="calcular()">
-                                    Calcular <i class="fa fa-dollar"></i>
-                                </button>        
-                            </div> -->
-                            <div class="col-md-2">
-                                <router-link :to=" '/cronograma/' + this.prestamo.valor + '/' +this.prestamo.interes + '/' + this.prestamo.periodicidad + '/' + this.prestamo.periodo" 
-                                class="nav-link" target="_blank">
-                                <button  class="btn btn-primary">
-                                    Generar Cronograma
-                                </button>
-                                </router-link>
-                            </div>
-							
-                        </div>
-                        
-                         
 	                </div>
 				</div>
 			</div>
@@ -134,12 +126,21 @@
 			<div class="row">
 			 <div class="col-md-12">
 				<div class="card card-default">
-	                <div class="card-header text-center">
+	                <div class="card-header text-center" style="background-color: #7DCAE7;color: white">
 	                    <h4 class="title">Lista de Prestamos</h4>  
 	                </div>
-	                <div class="card-body">
-						<div class="content table-responsive table-full-width" style="font-size:12px">
+	                <div class="card-body" id="general">
+						<div class="content table-responsive table-full-width" style="font-size:12px" >
                             <v-client-table :data="prestamos" :columns="columns" :options="options">
+								<div slot="Acciones" slot-scope="props">
+								<router-link :to="'/verReporte/' + props.row.ID" class="btn btn-primary" target="_blank" data-toggle="tooltip" data-placement="left" title="Cronograma"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></router-link>
+                                </div>
+                            </v-client-table>
+                        </div>
+					</div>
+					<div class="card-body" id="aldia">
+						<div class="content table-responsive table-full-width" style="font-size:12px" >
+                            <v-client-table :data="prestamosaldia" :columns="columnsaldia" :options="optionsaldia">
 								<div slot="Acciones" slot-scope="props">
 								<router-link :to="'/verReporte/' + props.row.ID" class="btn btn-primary" target="_blank" data-toggle="tooltip" data-placement="left" title="Cronograma"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></router-link>
                                 </div>
@@ -195,6 +196,33 @@
 				sortable: ["DNI","nombres","fecha","prestamo","interes","cuotas","valorcuota","estado"],
 				filterable: ["DNI","nombres","fecha","prestamo","interes","cuotas","valorcuota","estado"]
 			},
+			prestamosaldia:[{
+				ID:null,
+                DNI:null,
+                nombres:null,
+				fecha:null,
+				prestamo:null,
+				direccion:null,
+				celular:null,
+				valorcuota:null,
+				estado:null,
+            }],
+            columnsaldia: ["DNI","nombres","fecha","prestamo","direccion","celular","valorcuota","estado","Acciones"],
+            optionsaldia: {
+				headings:
+				{
+					nombres:"Nombres",
+					fecha:"Fecha",
+					DNI:"DNI",
+					prestamo:"Prestamo",
+					direccion:"Direccion",
+					celular:"Celular",
+					valorcuota:"Monto Cuota",
+					estado:"Estado",
+				},
+				sortable: ["DNI","nombres","fecha","prestamo","interes","cuotas","valorcuota","estado"],
+				filterable: ["DNI","nombres","fecha","prestamo","interes","cuotas","valorcuota","estado"]
+			},
             clientes:[],
         }
 	},
@@ -206,12 +234,30 @@
 		$('#cliente').hide();
 	},
     methods: {
-		getDatos()
+		getDatos(id)
         {
-            axios.get("getPrestamos")
+			// setTimeout(() => {
+			// 		location.reload();
+			// 	}, 100);
+			if(id == null)
+			{
+				id = 1; 
+			}
+			
+	        axios.get("getPrestamosGeneral/" + id)
             .then(data=>
             {
-                this.prestamos = data.data.prestamos;
+				if(id == 1)
+				{
+					this.prestamos = data.data.prestamos;
+					$("#aldia").hide();
+					$("#general").show();	
+				}else{
+					this.prestamosaldia = data.data.prestamos;
+					$("#general").hide();
+					$("#aldia").show();
+				}
+                
                 console.log(data.data);
             }
             ).catch(error=>{
@@ -236,6 +282,7 @@
 				prestamo:this.prestamo
 			}).then(data=>{
 				console.log(data);
+				this.getDatos();
 				swal({
 					position: 'top-end',
 					type: 'success',
@@ -243,9 +290,9 @@
 					showConfirmButton: false,
 					timer: 2000
 				});
-				setTimeout(() => {
-					location.reload();
-				}, 1500);
+				// setTimeout(() => {
+				// 	location.reload();
+				// }, 1500);
 			}).catch(error=>{
 				console.log(error);	
 				swal({

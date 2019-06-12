@@ -4,16 +4,17 @@
 			<div class="row">
 			 <div class="col-md-12">
 				<div class="card card-default" id="lista">
-	                <div class="card-header text-center">
+	                <div class="card-header text-center" style="background-color: #7DCAE7;color: white">
 	                    <h4 class="title">Lista de Solicitudes</h4>  
 	                </div>
 	                <div class="card-body">
 						<div class="content table-responsive table-full-width" style="font-size:12px">
                             <v-client-table :data="solicitudes" :columns="columns" :options="options">
 								<div slot="Acciones" slot-scope="props">
-								<a @click="atender(props.row.ID)" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Atender">Aceptar</a>
-								<a @click="rechazar(props.row.ID)" class="btn btn-danger" data-toggle="tooltip" data-placement="left" title="Atender">Rechazar</a>
-                                
+									<div class="row">
+										<a @click="atender(props.row.ID)" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Atender"><i class="fa fa-check" style="color:white"></i></a>
+										<a @click="rechazar(props.row.ID)" class="btn btn-danger" data-toggle="tooltip" data-placement="left" title="Rechazar"><i class="fa fa-times" style="color:white"></i></a>
+									</div>
 								</div>
                             </v-client-table>
                         </div>

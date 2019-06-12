@@ -6,6 +6,7 @@
  */
 
 require('./bootstrap');
+require('admin-lte');
 
 window.Vue = require('vue');
 import moment from 'moment';
@@ -84,6 +85,7 @@ const routes = [
     { path: '/prestamos', component: require('./components/admin/prestamos.vue') },
     { path: '/pago', component: require('./components/admin/pago.vue') },
     { path: '/solicitudes', component: require('./components/admin/solicitudes.vue') },
+    { path: '/home', component: require('./components/admin/home.vue') },
 
     //fin rutas admin
 ];

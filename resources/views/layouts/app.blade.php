@@ -19,11 +19,22 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
+<style>
+a:hover { 
+  /* color: black!important; */
+  background-color: #696969de;
+  /* margin: 3px 3px 3px 3px !important; */
+}
+a:active { 
+  color: black!important;
+  /* background-color: #696969de; */
+}
+</style>
 <body style="background-image: url('img/fondo1.jpg'); 
 background-repeat: no-repeat;
 background-size: 100%;">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel" style="background-color: dimgrey;">
+        <nav class="navbar navbar-expand-md navbar-light navbar-laravel" style="background-color: #69696973;">
             <div class="container" >
                 <a class="navbar-brand text-white" href="{{ url('/') }}">
                 Pucallpa Presta

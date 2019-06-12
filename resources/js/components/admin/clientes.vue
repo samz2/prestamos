@@ -6,20 +6,20 @@
 	            <div class="row">
 					<div class="col-md-3">
 						<div class="form-group">
-							<button  class="btn btn-primary" @click="ocultar('1')">
+							<button  class="btn btn-outline-primary" @click="ocultar('1')">
 							Clientes <i class="fa fa-plus"></i>
 							</button>
-							<button  class="btn btn-primary" @click="ocultar('2')">
+							<button  class="btn btn-outline-primary" @click="ocultar('2')">
 								<i class="fa fa-minus"></i>
 							</button>
 						</div>
 					</div>
 				</div>
-	            <div class="card card-default">
-	                <div class="card-header text-center">
+	            <div class="card card-default" id="cliente">
+	                <div class="card-header text-center" style="background-color: #7DCAE7;color: white">
 	                    <h4 class="title">Clientes</h4>  
 	                </div>
-	                <div class="card-body" id="cliente">
+	                <div class="card-body" >
 							<div class="row">
 								<div class="col-md-3">
 	                                <div class="form-group">
@@ -163,7 +163,7 @@
 			<div class="row">
 			 <div class="col-md-12">
 				<div class="card card-default">
-	                <div class="card-header text-center">
+	                <div class="card-header text-center" style="background-color: #7DCAE7;color: white">
 	                    <h4 class="title">Lista de Clientes</h4>  
 	                </div>
 	                <div class="card-body">

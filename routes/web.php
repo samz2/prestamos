@@ -13,8 +13,10 @@
 
 Route::get('/', function () {
     return view('auth.register');
+}); 
+Route::get('/login', function () {
+    return view('/home');
 })->middleware('checkAuth');; 
-
 Auth::routes();
 Route::get('/buscar', function () {
     return view('auth.buscar');
@@ -22,7 +24,7 @@ Route::get('/buscar', function () {
 Route::get('/solicitud', function () {
     return view('solicitud');
 }); 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
 //rutas administrador
 Route::post('/addCliente', 'ClienteController@store');
 Route::get('/getClientes', 'ClienteController@index');
@@ -33,7 +35,7 @@ Route::get('/getConfianza/{id}', 'ClienteController@getConfianza');
 Route::post('/addPrestamo', 'PrestamoController@store');
 Route::get('/cronograma/{v}/{i}/{pr}/{pe}', 'PrestamoController@create');
 Route::get('/getPrestamos/{id}', 'PrestamoController@getPrestamos');
-Route::get('/getPrestamos', 'PrestamoController@index');
+Route::get('/getPrestamosGeneral/{id}', 'PrestamoController@index');
 Route::get('/verReporte/{id}', 'CronogramaController@show');
 Route::get('/getCuota/{id}', 'CronogramaController@getCuota');
 Route::post('/addPago', 'PagoController@store');
@@ -44,6 +46,7 @@ Route::get('/getSolicitudC/{dni}', 'SolicitudController@show');
 Route::get('/rechazarSolicitud/{id}/{motivo}', 'SolicitudController@rechazarSolicitud');
 Route::get('/getCliente/{id}/', 'SolicitudController@getCliente');
 Route::get('/getSolicitud/{dni}', 'CronogramaController@PDF');
+Route::get('/getDatos', 'PrestamoController@datos');
 //fin rutas administrador
 
 // Rutas alternas
